@@ -79,6 +79,6 @@ You can track the status of pipeline execution directly from the pipeline dashbo
 
 To drill down to specific job, double click the execution from the dashboard:
 
-[sagemaker Studio Pipeline Execution](assets/sagemaker-studio-pipeline-execution.png)
+![sagemaker Studio Pipeline Execution](assets/sagemaker-studio-pipeline-execution.png)
 
 
