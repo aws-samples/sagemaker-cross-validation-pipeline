@@ -6,11 +6,6 @@ import json
 import boto3
 from sagemaker.tuner import ParameterRange, CategoricalParameter, ContinuousParameter, HyperparameterTuner
 
-sagemaker_session = sagemaker.session.Session()
-role = sagemaker.get_execution_role()
-bucket = sagemaker_session.default_bucket()
-sm_client = boto3.client("sagemaker")
-
 base_dir = "/opt/ml/processing"
 base_dir_evaluation = f"{base_dir}/evaluation" 
 base_dir_jobinfo = f"{base_dir}/jobinfo" 
@@ -28,7 +23,8 @@ def train(train=None,
           max_c = 1,
           min_gamma=0.0001,
           max_gamma=0.001,
-          gamma_scaling_type="Logarithmic"):
+          gamma_scaling_type="Logarithmic",
+          region = "us-east-2"):
     
     """Triggers a sagemaker automatic hyperparameter tuning optimization job to train and evaluate a given algorithm. 
      Hyperparameter tuner job triggers maximum number of training jobs with the given maximum parallel jobs per batch. Each training job triggered by the tuner would trigger k cross validation model training jobs.
@@ -49,8 +45,11 @@ def train(train=None,
          max_gamma: maximum gamma value configure as continuous parameter for hyperparameter tuning process
          gamma_scaling_type: scaling type used in the Hyperparameter tuning process for gamma
     """
+    sagemaker_session = sagemaker.session.Session()
+    role = sagemaker.get_execution_role()
+    sm_client = boto3.client("sagemaker")
 
-  # An Estimator object to be associated with the HyperparameterTuner job. 
+    # An Estimator object to be associated with the HyperparameterTuner job. 
     cv_estimator = Estimator(
         image_uri=image_uri,
         instance_type=instance_type,
@@ -60,10 +59,11 @@ def train(train=None,
         output_path=output_path)
 
     cv_estimator.set_hyperparameters(
-        train_src=train,
+        train_src = train,
         test_src = test,
         k = k,
-        instance_type=instance_type)
+        instance_type = instance_type,
+        region = region)
 
     hyperparameter_ranges = {
                             'c': ContinuousParameter(min_c, max_c), 
@@ -131,8 +131,11 @@ if __name__ =='__main__':
     parser.add_argument('--min-gamma', type=float, default=0.0001)
     parser.add_argument('--max-gamma', type=float, default=0.001)
     parser.add_argument('--gamma-scaling-type', type=str, default="Logarithmic")
+    parser.add_argument('--region', type=str, default="us-east-2")
     
     args = parser.parse_args()
+    os.environ['AWS_DEFAULT_REGION'] = args.region
+    
     train(train=args.train, 
           test=args.test, 
           image_uri=args.image_uri, 
@@ -146,4 +149,5 @@ if __name__ =='__main__':
           max_c=args.max_c,
           min_gamma=args.min_gamma,
           max_gamma=args.max_gamma,
-          gamma_scaling_type=args.gamma_scaling_type)
+          gamma_scaling_type=args.gamma_scaling_type,
+          region = args.region)

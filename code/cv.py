@@ -13,14 +13,6 @@ import sys
 
 logging.basicConfig(level=logging.INFO)
 
-sklearn_framework_version='0.23-1'
-script_path = 'scikit_learn_iris.py'
-
-region = boto3.Session().region_name
-sagemaker_session = sagemaker.Session()
-role = sagemaker.get_execution_role()
-bucket = sagemaker_session.default_bucket()
-
 sm_client = boto3.client("sagemaker")
 
 def fit_model(instance_type, 
@@ -47,6 +39,12 @@ def fit_model(instance_type,
        Returns: 
             Sagemaker Estimator created with given input parameters.
     """
+    sklearn_framework_version='0.23-1'
+    script_path = 'scikit_learn_iris.py'
+
+    sagemaker_session = sagemaker.Session()
+    role = sagemaker.get_execution_role()
+
     sklearn_estimator = SKLearn(
         entry_point=script_path,
         instance_type=instance_type,
@@ -121,9 +119,11 @@ def train():
     parser.add_argument('--test_src', type=str)
     parser.add_argument('--output_path', type=str)
     parser.add_argument('--instance_type', type=str, default="ml.c4.xlarge")
+    parser.add_argument('--region', type=str, default="us-east-2")
     
     args = parser.parse_args()
 
+    os.environ['AWS_DEFAULT_REGION'] = args.region
     training_jobs = []
     # Fit k training jobs with the specified parameters.
     for f in range(args.k):

@@ -30,8 +30,9 @@ def save_kfold_datasets(X, y, k):
         k : int value represents the number of folds to split the given datasets
     """
 
-    # Shuffles and Split dataset into k folds
-    kf = KFold(n_splits=k, random_state=None, shuffle=True)
+    # Shuffles and Split dataset into k folds. Using fixed random state 
+    # for repeatable dataset splits.
+    kf = KFold(n_splits=k, random_state=23, shuffle=True)
 
     fold_idx = 0
     for train_index, test_index in kf.split(X, y=y, groups=None):    

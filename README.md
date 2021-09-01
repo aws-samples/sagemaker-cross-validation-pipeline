@@ -33,26 +33,28 @@ Before executing any of the cells in the given jupyter notebook, we need to buil
 ./build-and-push-docker.sh [aws_acct_id] [aws_region]
 ```
 
-Capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeiline execution time. Here's an example of a valid ECR repo name: 869530972998.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest
+Capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeiline execution time. Here's a sample format of a valid ECR repo name: ############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest
 
 ## Step 2 - Update Pipeline Parameters
 Following items are a list of variables used in pipeline definition. These values can be overwritten at pipeline execution time for different results. 
 
-- **processing_instance_count** - number of instances for a Sagemaker Processing job in prepropcessing step.
-- **processing_instance_type** - instance type used for a Sagemaker Processing job in prepropcessing step.
-- **training_instance_type** - instance type used for Sagemaker Training job.
-- **training_instance_count** - number of instances for a Sagemaker Training job.
-- **inference_instance_type** - instance type for hosting the deployment of the Sagemaker trained model.
-- **hpo_tuner_instance_type** - instance type for the script processor that triggers the hyperparameter tuning job
-- **model_approval_status** - the initial approval status for the trained model in Sagemaker Model Registry
-- **role** - IAM role to use throughout the specific pipeline execution.
-- **default_bucket** - default S3 bucket name as the object storage for the target pipeline execution.
-- **baseline_model_objective_value** - the minimum objective metrics used for model evaluation.
-- **bucket_prefix** - bucket prefix for the pipeline execution.
-- **image_uri** = docker image URI (ECR) for triggering cross validation model training with HyperparameterTuner.
-- **k** - the value of k to be used in k fold cross validation
-- **max_jobs** - maximum number of model training jobs to trigger in a single hyperparameter tuner job.
-- **max_parallel_jobs** - maximum number of parallel model training jobs to trigger in a single hyperparameter tuner job.
+- **ProcessingInstanceCount** - number of instances for a Sagemaker Processing job in prepropcessing step.
+- **ProcessingInstanceType**  - instance type used for a Sagemaker Processing job in prepropcessing step.
+- **TrainingInstanceType** -  instance type used for Sagemaker Training job.
+- **TrainingInstanceCount** -  number of instances for a Sagemaker Training job.
+- **InferenceInstanceType** - instance type for hosting the deployment of the Sagemaker trained model.
+- **HPOTunerScriptInstanceType** - instance type for the script processor that triggers the hyperparameter tuning job 
+- **ModelApprovalStatus** - the initial approval status for the trained model in Sagemaker Model Registry
+- **ExecutionRole** - IAM role to use throughout the specific pipeline execution. 
+- **DefaultS3Bucket** - default S3 bucket name as the object storage for the target pipeline execution.
+- **BaselineModelObjectiveValue** - the minimum objective metrics used for model evaluation.
+- **S3BucketPrefix** - bucket prefix for the pipeline execution.
+- **ImageURI** - docker image URI (ECR) for triggering cross validation model training with HyperparameterTuner.
+- **KFold** - the value of k to be used in k fold cross validation
+- **MaxTrainingJobs** - maximum number of model training jobs to trigger in a single hyperparameter tuner job.
+- **MaxParallelTrainingJobs** - maximum number of parallel model training jobs to trigger in a single hyperparameter tuner job.
+- **MinimumC, MaximumC** - Hyperparameter ranges for SVM 'c' parameter.
+- **MimimumGamma, MaximumGamma** - Hyperparameter ranges for SVM 'gamma' parameter. 
 
 To update any variables, open the [jupyter notebook](cross_validation_pipeline.ipynb), navigate towards the bottom of the notebook where the pipeline execution is triggered and update the parameters  with the desired values:
 
@@ -62,7 +64,7 @@ execution = pipeline.start(
         BaselineModelObjectiveValue=0.8,
         MinimumC=0,
         MaximumC=1,
-        image_uri="869530972998.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest"
+        ImageURI="############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest"
     ))
 ```
 
