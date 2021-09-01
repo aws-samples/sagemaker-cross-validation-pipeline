@@ -20,8 +20,7 @@ def fit_model(instance_type,
               f, 
               c, 
               gamma, 
-              kernel,
-              sm_client
+              kernel
              ):
     """Fits a model using the specified algorithm.
     
