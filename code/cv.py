@@ -13,8 +13,6 @@ import sys
 
 logging.basicConfig(level=logging.INFO)
 
-sm_client = boto3.client("sagemaker")
-
 def fit_model(instance_type, 
               output_path,
               s3_train_base_dir,
@@ -22,7 +20,8 @@ def fit_model(instance_type,
               f, 
               c, 
               gamma, 
-              kernel
+              kernel,
+              sm_client
              ):
     """Fits a model using the specified algorithm.
     
@@ -35,6 +34,7 @@ def fit_model(instance_type,
             c: regularization parameter for SVM
             gamma: kernel coefficiency value
             kernel: kernel type for SVM algorithm
+  
        
        Returns: 
             Sagemaker Estimator created with given input parameters.
@@ -60,11 +60,12 @@ def fit_model(instance_type,
                                    }, wait=False)
     return sklearn_estimator
 
-def monitor_training_jobs(training_jobs):
+def monitor_training_jobs(training_jobs, sm_client):
     """Monitors the submit training jobs for completion.
     
       Args: 
          training_jobs: array of submitted training jobs
+         sm_client: boto3 sagemaker client
          
     """
     all_jobs_done = False
@@ -80,11 +81,12 @@ def monitor_training_jobs(training_jobs):
         else:
             time.sleep(30)
 
-def evaluation(training_jobs):
+def evaluation(training_jobs, sm_client):
     """Evaluates and calculate the performance for the cross validation training jobs.
     
        Args:
          training_jobs: array of submitted training jobs
+         sm_client: boto3 sagemaker client
       
        Returns:
          Average score from the training jobs collection in the given input
@@ -124,6 +126,7 @@ def train():
     args = parser.parse_args()
 
     os.environ['AWS_DEFAULT_REGION'] = args.region
+    sm_client = boto3.client("sagemaker")
     training_jobs = []
     # Fit k training jobs with the specified parameters.
     for f in range(args.k):
@@ -138,8 +141,8 @@ def train():
         training_jobs.append(sklearn_estimator)
         time.sleep(5) # sleeps to avoid Sagemaker Training Job API throttling
 
-    monitor_training_jobs(training_jobs=training_jobs)
-    score = evaluation(training_jobs=training_jobs)
+    monitor_training_jobs(training_jobs=training_jobs, sm_client=sm_client)
+    score = evaluation(training_jobs=training_jobs, sm_client=sm_client)
     return score
 
 if __name__ == '__main__':
