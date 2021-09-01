@@ -68,10 +68,10 @@ execution = pipeline.start(
     ))
 ```
 
-**Note** Replace the *image_uri* with the docker image URI that you built and pushed described in Step 1
+**Important Note** You must replace the *ImageURI* with the docker image URI that was built and pushed to ECR as described in Step 1
 
 ## Step 3 - Trigger Pipeline Run
-Execute all the cells in the notebook from the beginning. The notebook should trigger pipeline execution at the end. If you use Sagemaker Studio, you can visualize the pipeline execution by navigate to Sagemaker Pipelines in the left hand panel. 
+Execute all cells in the notebook from the beginning. As prerequistes, select **Python 3 (Data Science)** jupyter kernel if not selected by default. This notebook has been tested successfully in Sagemaker Studio with **2vCPU + 4GiB** instance type. Additionally, you can visualize the pipeline execution in realtime using Sagemaker Pipelines user interface available in the left hand panel in Sagemaker Studio console.
 
 ![sagemaker Studio Pipeline](assets/sagemaker-studio-pipeline.png)
 
