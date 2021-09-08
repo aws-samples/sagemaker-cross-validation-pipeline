@@ -27,11 +27,19 @@ YOUR USE OF THE EXTERNAL DEPENDENCIES IS AT YOUR SOLE RISK. IN NO EVENT WILL AMA
 ** sklearn; version 0.22.1 -- https://scikit-learn.org
 </details>
 
+## Prerequisites
+- Sagemaker Studio
+- CLI Terminal that supports docker image building. (e.g. [AWS Cloud9]{https://aws.amazon.com/cloud9/))
+
 ## Step 1 - Build A Docker Image
 Before executing any of the cells in the given jupyter notebook, we need to build a docker image using the shell script provided in the project (in the code folder).
 ```
 ./build-and-push-docker.sh [aws_acct_id] [aws_region]
 ```
+
+**Note:** Sagemaker Studio Terminal does not support building docker images today. Therefore, you would need to run the docker image building script outside of Sagemaker Studio that supports docker. For example, [AWS Cloud9]{https://aws.amazon.com/cloud9/}. 
+
+capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeline execution time. Here's an example format of an ECR repo name: ############.dkr.ecr.region.amazonaws.com/sagemaker-cross-validation-pipeline:latest
 
 Capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeiline execution time. Here's a sample format of a valid ECR repo name: ############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest
 
