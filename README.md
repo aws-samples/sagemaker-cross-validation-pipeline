@@ -42,7 +42,7 @@ Before executing any of the cells in the given jupyter notebook, we need to buil
 Capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeiline execution time. Here's a sample format of a valid ECR repo name: ############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest
 
 ## Step 2 - Launch Sagemaker Studio
-
+TBD
 
 ## Step 2 - Update Pipeline Parameters
 Following items are a list of variables used in pipeline definition. These values can be overwritten at pipeline execution time for different results. 
