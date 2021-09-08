@@ -42,7 +42,10 @@ cd sagemaker-cross-validation-pipeline/code
 
 **Note:** Sagemaker Studio Terminal does not support building docker images today. Therefore, you would need to run the docker image building script outside of Sagemaker Studio that supports docker. For example, [AWS Cloud9](https://aws.amazon.com/cloud9/). 
 
-Capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeiline execution time. Here's a sample format of a valid ECR repo name: ############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest
+Capture the ECR repository URI from the script after a successful run. You'll need to provide the image URI at pipeline execution time. Here's a sample format of a ECR repo UR: ############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest. Following are 2 screenshots about building the docker image and capturing the docker image information:
+
+![Cloud9 build docker image](assets/cloud9-build-docker-image.png)
+![Cloud9 pushing docker image](assets/cloud9-docker-image-pushed.png)
 
 ## Step 2 - Launch Sagemaker Studio
 
