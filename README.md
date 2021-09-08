@@ -29,11 +29,14 @@ YOUR USE OF THE EXTERNAL DEPENDENCIES IS AT YOUR SOLE RISK. IN NO EVENT WILL AMA
 
 ## Prerequisites
 - Sagemaker Studio
-- CLI Terminal that supports docker image building. (e.g. [AWS Cloud9]{https://aws.amazon.com/cloud9/))
+- CLI Terminal that supports building docker images. (e.g. [AWS Cloud9]{https://aws.amazon.com/cloud9/))
 
 ## Step 1 - Build A Docker Image
-Before executing any of the cells in the given jupyter notebook, we need to build a docker image using the shell script provided in the project (in the code folder).
+In a CLI terminal that supports building docker image, run the following commands: (replace aws_acct_id and aws_region to reflect the target environment where the training jobs should be run)
+
 ```
+git clone https://github.com/aws-samples/sagemaker-cross-validation-pipeline
+cd sagemaker-cross-validation-pipeline/code
 ./build-and-push-docker.sh [aws_acct_id] [aws_region]
 ```
 
@@ -42,7 +45,12 @@ Before executing any of the cells in the given jupyter notebook, we need to buil
 Capture the ECR repository name from the script after a successful run. You'll need to provide the image name at pipeiline execution time. Here's a sample format of a valid ECR repo name: ############.dkr.ecr.us-east-2.amazonaws.com/sagemaker-cross-validation-pipeline:latest
 
 ## Step 2 - Launch Sagemaker Studio
-TBD
+
+1. Launch Sagemaker Studio with a valid user
+2. Clone this repo into a Sagemaker studio workspace, as followed:
+![Sagemaker Studio git clone](assets/sagemaker-studio-clone-repo.png)
+![Sagemaker Studio git clone URL](assets/sagemaker-studio-clone-repo-url.png)
+3. Navigate to the repository folder cloned in previous step, open the [jupyter notebook](cross_validation_pipeline.ipynb). Choose **Python3 (Data Science)** kernel, and **ml.t3.medium** instance type if not selected by default.
 
 ## Step 2 - Update Pipeline Parameters
 Following items are a list of variables used in pipeline definition. These values can be overwritten at pipeline execution time for different results. 
@@ -65,7 +73,7 @@ Following items are a list of variables used in pipeline definition. These value
 - **MinimumC, MaximumC** - Hyperparameter ranges for SVM 'c' parameter.
 - **MimimumGamma, MaximumGamma** - Hyperparameter ranges for SVM 'gamma' parameter. 
 
-To update any variables, open the [jupyter notebook](cross_validation_pipeline.ipynb), navigate towards the bottom of the notebook where the pipeline execution is triggered and update the parameters  with the desired values:
+To update any variables, navigate towards the bottom of the notebook where the pipeline execution is triggered and update the parameters with the desired values:
 
 ```
 execution = pipeline.start(
