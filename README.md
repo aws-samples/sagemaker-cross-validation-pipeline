@@ -50,7 +50,8 @@ Capture the ECR repository name from the script after a successful run. You'll n
 2. Clone this repo into a Sagemaker studio workspace, as followed:
 ![Sagemaker Studio git clone](assets/sagemaker-studio-clone-repo.png)
 ![Sagemaker Studio git clone URL](assets/sagemaker-studio-clone-repo-url.png)
-3. Navigate to the repository folder cloned in previous step, open the [jupyter notebook](cross_validation_pipeline.ipynb). Choose **Python3 (Data Science)** kernel, and **ml.t3.medium** instance type if not selected by default.
+3. Navigate to the repository folder cloned in previous step, open the [jupyter notebook](cross_validation_pipeline.ipynb). Choose **Python3 (Data Science)** kernel, and **ml.t3.medium** instance type if not selected by default, as shown in the following:
+![Sagemaker Studio notebook content](assets/sagemaker-studio-notebook-content.png)
 
 ## Step 2 - Update Pipeline Parameters
 Following items are a list of variables used in pipeline definition. These values can be overwritten at pipeline execution time for different results. 
