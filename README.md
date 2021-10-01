@@ -29,7 +29,7 @@ YOUR USE OF THE EXTERNAL DEPENDENCIES IS AT YOUR SOLE RISK. IN NO EVENT WILL AMA
 
 ## Prerequisites
 - Sagemaker Studio
-- CLI Terminal that supports building docker images. (e.g. [AWS Cloud9]{https://aws.amazon.com/cloud9/))
+- CLI Terminal that supports building docker images. (e.g. [AWS Cloud9](https://aws.amazon.com/cloud9/))
 
 ## Step 1 - Build A Docker Image
 In a CLI terminal that supports building docker image, run the following commands: (replace aws_acct_id and aws_region to reflect the target environment where the training jobs should be run)
